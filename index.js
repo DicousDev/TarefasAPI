@@ -9,10 +9,6 @@ app.get("/", (req, res) => {
     res.json({"message": "Lista de projetos API"});
 });
 
-app.get("/tasks", (req, res) => {
-    res.json(taskList);
-});
-
 app.post("/generateTask", (req, res) => {
     const {description, priority, stateTask} = req.body;
     taskList.push({description: description, priority: priority, stateTask: stateTask});
