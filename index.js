@@ -31,26 +31,25 @@ app.post("/generateTask", (req, res) => {
 });
 
 app.patch("/setTask/:id", (req, res) => {
-    const {description, priority, stateTask} = req.body;
-
-    if (req.params.id - 1 > taskList.length - 1) {
+    
+    const taskId = taskList.findIndex(task => task.id == req.params.id);
+    
+    if (taskId <= -1) {
         return res.json({"code": 404, "message": "Essa tarefa não existe."});
     }
 
-    if (description) {
-        taskList[req.params.id - 1].description = description; 
-    }
-    
-    if(priority)
-        taskList[req.params.id - 1].priority = priority;
-    
-    if (stateTask) {
-        taskList[req.params.id - 1].stateTask = stateTask;
+    const {description, priority, stateTask} = req.body;
+
+    taskList[taskId] = {
+        id:  taskList[taskId].id,
+        description: description || taskList[taskId].description,
+        priority: priority || taskList[taskId].priority,
+        stateTask: stateTask || taskList[taskId].stateTask
     }
 
     res.json({
         "code":200,
-        "body": taskList[req.params.id - 1], 
+        "body": taskList[taskId], 
         "message": `Tarefa ${req.params.id} modificada com sucesso.`});
 })
 
