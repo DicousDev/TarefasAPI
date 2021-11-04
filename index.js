@@ -17,7 +17,23 @@ app.get("/", (req, res) => {
 });
 
 app.get("/tasks", (req, res) => {
-    res.json(taskList);
+    res.json({
+        "code": 200,
+        "body": taskList
+    });
+});
+
+app.get("/tasks/:id", (req, res) => {
+    const taskId = taskList.findIndex(task => task.id == req.params.id);
+
+    if(taskId <= -1) {
+        return res.json({"code": 404, "message": "Tarefa não encontrada."});
+    }
+
+    res.json({
+        "code": 200,
+        "body": taskList[taskId],
+    });
 });
 
 app.post("/generateTask", (req, res) => {
@@ -31,7 +47,6 @@ app.post("/generateTask", (req, res) => {
 });
 
 app.patch("/setTask/:id", (req, res) => {
-    
     const taskId = taskList.findIndex(task => task.id == req.params.id);
     
     if (taskId <= -1) {
