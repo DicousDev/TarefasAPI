@@ -79,5 +79,23 @@ module.exports = {
             data: taskList[taskId],
             message: `Tarefa ${id} alterada com sucesso.`
         }
+    },
+
+    async deleteTaskById(id) {
+        const taskId = taskList.findIndex(task => task.id == id);
+
+        if(taskId <= -1) {
+            return {
+                code: "404",
+                message: "Tarefa não encontrada."
+            }
+        }
+
+        const task = taskList.splice(taskId, 1);
+        return {
+            code: 200,
+            data: task,
+            message: `Tarefa ${id} removida com sucesso.`
+        }
     }
 }

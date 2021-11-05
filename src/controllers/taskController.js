@@ -19,5 +19,10 @@ module.exports = {
     async setTaskById(req, res) {
         const data = await model.setTaskById(req.params.id, req.body);
         return res.status(data.code).json(data);
+    },
+
+    async deleteTaskById(req, res) {
+        const data = await model.deleteTaskById(req.params.id);
+        return res.status(data.code).json(data);
     }
 }
